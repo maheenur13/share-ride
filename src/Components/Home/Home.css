@@ -1,0 +1,38 @@
+.home-design{
+    /* border: 1px solid #ccc; */
+    display:flex;
+    flex-wrap: wrap;
+    /* flex-direction: row; */
+    justify-content:center;
+    align-items:center;
+    margin-top: 200px;
+    /* width: 80%; */
+    /* margin: auto; */
+
+}
+.ride-boxes{
+    /* border: 1px solid red; */
+    margin: 35px;
+    width: 250px;
+    padding: 30px;
+    text-align: center;
+    background-color:rgba(0, 0, 0, 0.466);
+    border-radius:10px;
+    transition: .3s;
+}
+.ride-boxes:hover{
+    margin-top: -2px;
+    background-color:rgba(0, 0, 0, 0.836);
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.425);   
+}
+.icons{
+    font-size:120px;
+    color: #123E59;
+    background-color:#F6B51B;
+    border-radius: 20%;
+    padding:10px;
+}
+.ride-boxes h1{
+    color: white;
+    margin-top: 20px;
+}
