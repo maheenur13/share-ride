@@ -17,6 +17,7 @@ import Login from './Components/Login/Login';
 import fakeData from '../src/Components/FakeData/FakeData.json'
 function App() {
   const context=createContext();
+   
   const [allData,setAllData]= useState([])
   useEffect(()=>{
     setAllData(fakeData);
@@ -24,7 +25,7 @@ function App() {
   },[])
   return (
     <div className="main-back">
-    <context.Provider value={fakeData}>
+    <context.Provider value={[fakeData,allData,setAllData]}>
       <Router>
         <Header></Header>
         <Switch>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 import firebase from "firebase/app";
@@ -15,8 +15,20 @@ if (!firebase.apps.length) {
 } else {
     firebase.app(); // if already initialized, use that one
 }
-console.log('firebase', firebase);
+// const login = useContext(context);
+
+
+
+
 const Login = () => {
+    
+const [user,setUser]= useState({
+    isSignedIn:false,
+    name:'',
+    email:'',
+    photo:'',
+    password:''
+  });
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     const handleGoogleSignIn = () => {
         console.log('google clicked');
@@ -74,27 +86,58 @@ const Login = () => {
             });
     }
 
+    const handleFormValid=(e)=>{
+        let isFieldValid=true;
+        let firstPassword;
+            let lastPassword;
+        if(e.target.name === 'email'){
+            isFieldValid= /\S+@\S+\.\S+/.test(e.target.value);
+            // console.log(isEmailValid);
+        }
+        if(e.target.name ==='password'){
+            const isPassValid = e.target.value.length>6;
+            const isPassHasNum = /\d{1}/.test(e.target.value);
+            isFieldValid = isPassValid && isPassHasNum;
+            firstPassword=e.target.value;
+            console.log('first password',firstPassword);
+            // console.log(isPassValid && isPassHasNum);  
+        }
+        
+        if(isFieldValid){
+            // console.log(isFormValid);
+            const newUserInfo ={...user};
+            newUserInfo[e.target.name]=e.target.value;
+            setUser(newUserInfo);
+        }
+    }
 
 
 
     const { register, handleSubmit, watch, errors } = useForm();
-    const onSubmit = data => console.log('dataaaa', data);
+    const onSubmit = data => {
+        // console.log('dataaaa', data)
+        if(user.email && user.password){
+
+        }
+    };
 
     console.log(watch("example")); // watch input value by passing the name of it
 
     return (
         <div className="login-page-design">
+            <p>Email: {user.email}</p>
+            <p>Name:{user.name}</p>
             <form className="form-design" onSubmit={handleSubmit(onSubmit)}>
                 <h2 >Create An Account</h2>
-                <input className="form-item" name="username" placeholder="Enter Your Name" ref={register({ required: true,maxLength:20 })} />
+                <input onBlur={handleFormValid} className="form-item" name="name" placeholder="Enter Your Name" ref={register({ required: true,maxLength:20 })} />
                 {errors.username && <span className="error-design">Name is required</span>}
-                <input name="email" type="email" className="form-item" placeholder="Enter Your Email" ref={register({ required: true })} />
+                <input onBlur={handleFormValid} name="email" type="email" className="form-item" placeholder="Enter Your Email" ref={register({ required: true })} />
                 {errors.email && <span className="error-design">Email is required </span>}
 
-                <input name="password" placeholder="password" className="form-item"  type="password" ref={register({ required: true })} />
+                <input onBlur={handleFormValid} name="password" placeholder="password" className="form-item"  type="password" ref={register({ required: true })} />
                 {errors.password && <span className="error-design">Password is required</span>}
 
-                <input name="confirmpassword" className="form-item" placeholder="Confirm password" type="password" ref={register({ required: true })} />
+                <input onBlur={handleFormValid} name="confirmpassword" className="form-item" placeholder="Confirm password" type="password" ref={register({ required: true })} />
                 {errors.confirmpassword && <span className="error-design">Confirm Password is required</span>}
 
                 <input className="form-item submit" type="submit" />
