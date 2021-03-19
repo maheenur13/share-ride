@@ -1,8 +1,14 @@
-body{
-  height:100vh;
-  width:100%;
-  background-image: url('./images/Bg.png');
-  background-position:100% 100%;
+body,html{
+  height: 100%;
+  background-image: url("./images/Bg.png");
+  height: 100%;
+  background-position: 100% 100%;
   background-repeat: no-repeat;
-  background-size:100%;
+  background-size: cover;
+  /* border: 1px solid red; */
+}
+.main-back{
+  /* border: 2px solid yellow; */
+  
+
 }

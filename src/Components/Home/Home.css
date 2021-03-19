@@ -1,27 +1,20 @@
-.home-design{
-    /* border: 1px solid #ccc; */
-    display:flex;
-    flex-wrap: wrap;
-    /* flex-direction: row; */
-    justify-content:center;
-    align-items:center;
-    margin-top: 200px;
-    /* width: 80%; */
-    /* margin: auto; */
 
-}
 .ride-boxes{
-    /* border: 1px solid red; */
-    margin: 35px;
-    width: 250px;
+    border: 1px solid red;
+    margin: 175px 35px 35px 35px;
+    /* display: flex; */
+    width: 200px;
     padding: 30px;
     text-align: center;
     background-color:rgba(0, 0, 0, 0.466);
     border-radius:10px;
     transition: .3s;
 }
+.images-style{
+    width: 100%;
+}
 .ride-boxes:hover{
-    margin-top: -2px;
+    margin-top: 155px;
     background-color:rgba(0, 0, 0, 0.836);
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.425);   
 }

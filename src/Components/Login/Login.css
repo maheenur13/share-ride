@@ -9,6 +9,7 @@
     width:50%;
     background-color:rgb(255, 255, 255);
     height:550px;
+    /* margin-bottom: 100px; */
 }
 .error-design{
     color: red;
@@ -39,15 +40,41 @@
     align-items:center;
 }
 .form-above-part{
-    border: 1px solid gray;
     margin-top: 20px;
     text-align: center;
-    width: 500px;
+    width: 420px;
+    margin-bottom: 50px;
 }
 .login-with-facebook{
-    border: 1px solid gray;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+
 }
 .login-with-google{
-    border: 1px solid;
-
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.fb-image{
+    width: 47px;
+}
+.google-image{
+    width: 40px;
+    margin-left: 2px;
+    padding: 2px;
+    
+}
+.google-image img{
+    border-radius: 50%;
+}
+.form-above-part h6{
+    margin: auto;
 }
