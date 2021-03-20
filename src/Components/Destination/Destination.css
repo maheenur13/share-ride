@@ -1,0 +1,26 @@
+
+.form-box{
+    width: 450px;
+    height:250px;
+    margin-top: 20px;
+    background-color:rgb(141, 141, 204);
+    padding: 30px;
+}
+.form-style{
+    display: flex;
+    flex-direction: column;
+}
+.destination-page-design{
+    /* margin-top: 30px; */
+    display: flex;
+    /* align-items: center; */
+    justify-content:space-around;
+    flex-wrap: wrap;
+    background-color:rgb(158, 158, 158);
+    height:100vh;
+}
+.map-box{
+    margin-top: 20px;
+    width:50%;
+    /* border: 2px solid yellow; */
+}
