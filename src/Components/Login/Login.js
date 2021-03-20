@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import firebase from "firebase/app";
 import firebaseConfig from './firebase.config';
 // Add the Firebase services that you want to use
@@ -21,14 +21,17 @@ if (!firebase.apps.length) {
 
 
 const Login = () => {
-    
-const [user,setUser]= useState({
-    isSignedIn:false,
-    name:'',
-    email:'',
-    photo:'',
-    password:''
-  });
+    const [oldUser, setOldUser] = useState(false);
+    const [user, setUser] = useState({
+        isSignedIn: false,
+        name: '',
+        email: '',
+        photo: '',
+        password: '',
+        error: '',
+        success: false
+    });
+    const history = useHistory();
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     const handleGoogleSignIn = () => {
         console.log('google clicked');
@@ -41,6 +44,10 @@ const [user,setUser]= useState({
                 var token = credential.accessToken;
                 // The signed-in user info.
                 var user = result.user;
+                const newUserInfo = { ...user };
+                newUserInfo.name=user.displayName;
+                setUser(newUserInfo);
+                history.push('/home');
                 console.log(user);
                 // ...
             }).catch((error) => {
@@ -62,12 +69,16 @@ const [user,setUser]= useState({
             .auth()
             .signInWithPopup(fbProvider)
             .then((result) => {
-                /** @type {firebase.auth.OAuthCredential} */
                 var credential = result.credential;
+                
 
                 // The signed-in user info.
-                var user = result.user;
-
+                const fbUser = result.user;
+                const newUserInfo = { ...user };
+                newUserInfo.name=fbUser.displayName;
+                setUser(newUserInfo);
+                history.push('/home');
+                console.log('faceeeeeeeeeeeeboook user',fbUser);
                 // This gives you a Facebook Access Token. You can use it to access the Facebook API.
                 var accessToken = credential.accessToken;
 
@@ -77,6 +88,7 @@ const [user,setUser]= useState({
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
+                console.log(errorMessage);
                 // The email of the user's account used.
                 var email = error.email;
                 // The firebase.auth.AuthCredential type that was used.
@@ -86,27 +98,27 @@ const [user,setUser]= useState({
             });
     }
 
-    const handleFormValid=(e)=>{
-        let isFieldValid=true;
+    const handleFormValid = (e) => {
+        let isFieldValid = true;
         let firstPassword;
-            let lastPassword;
-        if(e.target.name === 'email'){
-            isFieldValid= /\S+@\S+\.\S+/.test(e.target.value);
+        let lastPassword;
+        if (e.target.name === 'email') {
+            isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
             // console.log(isEmailValid);
         }
-        if(e.target.name ==='password'){
-            const isPassValid = e.target.value.length>6;
+        if (e.target.name === 'password') {
+            const isPassValid = e.target.value.length > 6;
             const isPassHasNum = /\d{1}/.test(e.target.value);
             isFieldValid = isPassValid && isPassHasNum;
-            firstPassword=e.target.value;
-            console.log('first password',firstPassword);
+            firstPassword = e.target.value;
+            console.log('first password', firstPassword);
             // console.log(isPassValid && isPassHasNum);  
         }
-        
-        if(isFieldValid){
+
+        if (isFieldValid) {
             // console.log(isFormValid);
-            const newUserInfo ={...user};
-            newUserInfo[e.target.name]=e.target.value;
+            const newUserInfo = { ...user };
+            newUserInfo[e.target.name] = e.target.value;
             setUser(newUserInfo);
         }
     }
@@ -116,33 +128,85 @@ const [user,setUser]= useState({
     const { register, handleSubmit, watch, errors } = useForm();
     const onSubmit = data => {
         // console.log('dataaaa', data)
-        if(user.email && user.password){
+        if (!oldUser && user.email && user.password) {
+            firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+                .then((userCredential) => {
+                    const newUserInfo = { ...user };
+                    newUserInfo.error = '';
+                    newUserInfo.success = true;
+                    setUser(newUserInfo);
+                    updateUserInfo(user.name);
 
+                })
+                .catch((error) => {
+                    const newUserInfo = { ...user };
+                    newUserInfo.error = error.message;
+                    newUserInfo.success = false;
+                    setUser(newUserInfo);
+                    // var errorCode = error.code;
+                    var errorMessage = error.message;
+                    console.log(errorMessage);
+                    // ..
+                });
+        }
+        if (oldUser && user.email && user.password) {
+            firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+                .then(res => {
+                    // Signed in
+                    const newUserInfo = { ...user };
+                    newUserInfo.error = '';
+                    newUserInfo.success = true;
+                    setUser(newUserInfo);
+                    history.push('/home');
+                    console.log('Sing in user',res.user)
+                })
+                .catch((error) => {
+                    const newUserInfo = { ...user };
+                    newUserInfo.error = error.message;
+                    newUserInfo.success = false;
+                    setUser(newUserInfo);
+                });
         }
     };
+    const updateUserInfo = name => {
+        const updateUser = firebase.auth().currentUser;
+
+        updateUser.updateProfile({
+            displayName: name,
+            // photoURL: "https://example.com/jane-q-user/profile.jpg"
+        }).then(() => {
+            // Update successful.
+            console.log('uner Info updated Successfully!')
+        }).catch(error => {
+            // An error happened.
+            console.log(error);
+        });
+    }
 
     console.log(watch("example")); // watch input value by passing the name of it
 
     return (
         <div className="login-page-design">
-            <p>Email: {user.email}</p>
-            <p>Name:{user.name}</p>
+            <p>user name: {user.name}</p>
             <form className="form-design" onSubmit={handleSubmit(onSubmit)}>
-                <h2 >Create An Account</h2>
-                <input onBlur={handleFormValid} className="form-item" name="name" placeholder="Enter Your Name" ref={register({ required: true,maxLength:20 })} />
-                {errors.username && <span className="error-design">Name is required</span>}
+                <h2 >{!oldUser ? 'Create An Account' : 'Please Login Your Account'}</h2>
+                {!oldUser && <input onBlur={handleFormValid} className="form-item" name="name" placeholder="Enter Your Name" ref={register({ required: true, maxLength: 20 })} />}
+                {!oldUser && errors.name && <span className="error-design">Name is required</span>}
                 <input onBlur={handleFormValid} name="email" type="email" className="form-item" placeholder="Enter Your Email" ref={register({ required: true })} />
                 {errors.email && <span className="error-design">Email is required </span>}
 
-                <input onBlur={handleFormValid} name="password" placeholder="password" className="form-item"  type="password" ref={register({ required: true })} />
+                <input onBlur={handleFormValid} name="password" placeholder="password" className="form-item" type="password" ref={register({ required: true })} />
                 {errors.password && <span className="error-design">Password is required</span>}
 
-                <input onBlur={handleFormValid} name="confirmpassword" className="form-item" placeholder="Confirm password" type="password" ref={register({ required: true })} />
-                {errors.confirmpassword && <span className="error-design">Confirm Password is required</span>}
+                {!oldUser && <input onBlur={handleFormValid} name="confirmpassword" className="form-item" placeholder="Confirm password" type="password" ref={register({ required: true })} />}
+                {!oldUser && errors.confirmpassword && <span className="error-design">Confirm Password is required</span>}
 
-                <input className="form-item submit" type="submit" />
-                <h6>Already Have an Account? <span><Link to="#" >login</Link></span> </h6>
+                <input className="form-item submit" type="submit" value={!oldUser ? 'Sign Up' : 'Login'} />
+                <h6>{oldUser?`Don't have Account?`:'Already Have An Account?'} <span><Link to="#" name="oldUser" onClick={() => setOldUser(!oldUser)} >{oldUser?'Sign Up':'Login'}</Link></span> </h6>
+                {user.success ? <p style={{ color: 'green' }}>{!oldUser ? 'Account Created' : 'User Logged In'} Successfully</p> :
+                    <p style={{ color: 'red' }}>{user.error}</p>}
             </form>
+
             <div className="form-above-part">
                 <h4>or</h4>
                 <div onClick={handleFbSignIn} className="login-with-facebook">
