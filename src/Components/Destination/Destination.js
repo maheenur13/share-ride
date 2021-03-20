@@ -28,6 +28,10 @@ console.log('valuess',props)
         setDestinationInfo(newInfo);
         e.preventDefault();
     }
+    const destinationDesign={
+        backgroundColor:'white',
+        padding: '5px'
+    }
     return (
         <div className="destination-page-design">
             <div className="form-box">
@@ -39,8 +43,9 @@ console.log('valuess',props)
                     <input style={{marginTop:'15px',backgroundColor:'#FFA500',border:'none'}} type="submit" value="search" ></input>
                 </form>:
                 <div>
-                    <p>{destinationInfo.from}</p>
-                    <p>{destinationInfo.to}</p>
+                    <p style={destinationDesign}>{destinationInfo.from}</p>
+                    <p style={{textAlign:'center',color:'white',fontWeight:'bold'}}>To</p>
+                    <p style={destinationDesign}>{destinationInfo.to}</p>
                 </div>
                 }
             </div>

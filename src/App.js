@@ -13,7 +13,7 @@ import Destination from './Components/Destination/Destination';
 import Blog from './Components/Blog/Blog';
 import Contact from './Components/Contact/Contact';
 import Login from './Components/Login/Login';
-import fakeData from '../src/Components/FakeData/FakeData.json'
+
 import PrivateRout from './Components/PrivateRoute/PrivateRout';
 
 export const userContext=createContext();
@@ -22,11 +22,7 @@ function App() {
   
    const [loggedInUser,setLoggedInUser]=useState([]);
    console.log(loggedInUser);
-  const [allData,setAllData]= useState([])
-  useEffect(()=>{
-    setAllData(fakeData);
-    // console.log(allData);
-  },[])
+  
   return (
     <div className="main-back">
     <userContext.Provider value={[loggedInUser,setLoggedInUser]}>
@@ -34,18 +30,10 @@ function App() {
         <Header></Header>
         <Switch>
         <Route exact path="/">
-        <div style={{display:'flex',justifyContent:'center',alignItems:'center',flexWrap:'wrap',height:'100%'}}>
-           {
-             allData.map(data=> <Home  data={data} key={data.id} ></Home>)
-           }
-           </div>
+          <Home></Home>
         </Route>
         <Route path="/home">
-          <div style={{display:'flex',justifyContent:'center',alignItems:'center',flexWrap:'wrap',height:'100%'}}>
-          {
-             allData.map(data=> <Home  data={data} key={data.id} ></Home>)
-           }
-           </div>
+          <Home></Home>
         </Route>
         <PrivateRout path="/destination">
             <Destination></Destination>
