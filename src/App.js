@@ -15,7 +15,9 @@ import Contact from './Components/Contact/Contact';
 import Login from './Components/Login/Login';
 import fakeData from '../src/Components/FakeData/FakeData.json'
 import PrivateRout from './Components/PrivateRoute/PrivateRout';
+
 export const userContext=createContext();
+
 function App() {
   
    const [loggedInUser,setLoggedInUser]=useState([]);

@@ -8,6 +8,8 @@ import {
   } from "react-router-dom";
   import './Header.css';
   import {userContext} from '../../App';
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee,faUserCircle } from '@fortawesome/free-solid-svg-icons'
 const Header = () => {
   // const[loggedInUser,setLoggedInUser]=use({});
   const [loggedInUser,setLoggedInUser]=useContext(userContext);
@@ -23,8 +25,9 @@ const Header = () => {
          <Link className="nav-item" to="/blog" >Blog</Link>
         <Link className="nav-item" to="/contact" >Contact</Link>
         {!loggedInUser.email? <Link style={{backgroundColor:'orange',color:'black',borderRadius:'5px',fontWeight:'bold'}} className="nav-item" to="/login">Login</Link>:
-        <h6 style={{backgroundColor:'green',color:'white',borderRadius:'5px',fontWeight:'bold'}} className="nav-item">{loggedInUser.name}</h6>
+        <Link style={{backgroundColor:'orange',color:'black',borderRadius:'2px',fontWeight:'bold'}} className="nav-item" to="/login" onClick={()=>setLoggedInUser({})}>Sign Out</Link>
         }
+        {loggedInUser.email && <h6 style={{backgroundColor:'green',color:'white',borderRadius:'2px',fontWeight:'bold'}} className="nav-item"><FontAwesomeIcon style={{marginRight:'6px'}} icon={faUserCircle}/>{loggedInUser.name}</h6>}
       
     </Nav>
   </Navbar.Collapse>

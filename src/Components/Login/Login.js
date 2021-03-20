@@ -192,6 +192,24 @@ const Login = () => {
             console.log(error);
         });
     }
+    const handleSignOut=()=>{
+    firebase.auth().signOut()
+    .then(() => {
+        const signOutUser={
+            isSignedIn:false,
+            name:'',
+            email:'',
+            photo:'',
+            error:'',
+            success: ''
+        }
+        setUser(signOutUser);
+        loggedInUser(signOutUser);
+        // Sign-out successful.
+      }).catch((error) => {
+        // An error happened.
+      });
+    }
 
     console.log(watch("example")); // watch input value by passing the name of it
 
@@ -212,7 +230,7 @@ const Login = () => {
 
                 <input className="form-item submit" type="submit" value={!oldUser ? 'Sign Up' : 'Login'} />
                 <h6>{oldUser?`Don't have Account?`:'Already Have An Account?'} <span><Link to="#" name="oldUser" onClick={() => setOldUser(!oldUser)} >{oldUser?'Sign Up':'Login'}</Link></span> </h6>
-                {user.success ? <p style={{ color: 'green' }}>{!oldUser ? 'Account Created' : 'User Logged In'} Successfully</p> :
+                {user.success ? <p style={{ color: 'green' }}> {!oldUser ?'Account Created Successfully':''}</p> :
                     <p style={{ color: 'red' }}>{user.error}</p>}
             </form>
 
