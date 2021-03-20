@@ -21,7 +21,7 @@ const Header = () => {
   <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="Nav-items-design">
         <Link className="nav-item" to="/home" >Home</Link>
-         <Link className="nav-item" to="/destination" >Destination</Link>
+         <Link className="nav-item" to="/destination/:rideName/:elementId" >Destination</Link>
          <Link className="nav-item" to="/blog" >Blog</Link>
         <Link className="nav-item" to="/contact" >Contact</Link>
         {!loggedInUser.email? <Link style={{backgroundColor:'orange',color:'black',borderRadius:'5px',fontWeight:'bold'}} className="nav-item" to="/login">Login</Link>:

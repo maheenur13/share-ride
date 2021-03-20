@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Destination.css';
-
+import fakeData from '../FakeData/FakeData.json';
 import GoogleMap from '../GoogleMap/GoogleMap';
+import { useParams } from 'react-router';
 
 
-const Destination = (props) => {
+const Destination = () => {
+    const [newData,setNewData]=useState([]);
+    const [newSingleData,setNewSingleData]=useState([]);
     const [destinationInfo,setDestinationInfo]= useState({
         isSearchedCliked:false,
-
     });
+
+
+    const {elementId}=useParams();
+    useEffect(()=>{
+        setNewData(fakeData);
+    },[elementId])
+    const singleData = newData.find(data=>data.id===parseInt(elementId));
+
     const handleForm=e=>{
         if(e.target.name==='from'){
         const newInfo ={...destinationInfo};
@@ -21,7 +31,7 @@ const Destination = (props) => {
         setDestinationInfo(newInfo);
         }
     }
-console.log('valuess',props)
+// console.log('valuess',props)
     const handleSubmit=(e) => {
         const newInfo = {...destinationInfo};
         newInfo.isSearchedCliked=true;
@@ -36,9 +46,9 @@ console.log('valuess',props)
         <div className="destination-page-design">
             <div className="form-box">
                 {!destinationInfo.isSearchedCliked ? <form onSubmit={handleSubmit} className="form-style">
-                    <label for="from">Pick From</label>
+                    <label >Pick From</label>
                     <input onBlur={handleForm} name="from" type="text" placeholder="Mirpur-11" required></input>
-                    <label  style={{marginTop:'10px'}} for="to">Pick To</label>
+                    <label  style={{marginTop:'10px'}}>Pick To</label>
                     <input onBlur={handleForm} name="to" type="text" placeholder="Dhanmondi" required></input>
                     <input style={{marginTop:'15px',backgroundColor:'#FFA500',border:'none'}} type="submit" value="search" ></input>
                 </form>:
@@ -46,6 +56,12 @@ console.log('valuess',props)
                     <p style={destinationDesign}>{destinationInfo.from}</p>
                     <p style={{textAlign:'center',color:'white',fontWeight:'bold'}}>To</p>
                     <p style={destinationDesign}>{destinationInfo.to}</p>
+                    <div style={{border:'1px solid green',display:'flex',justifyContent:'center',alignItems: 'center'}}>
+                        <div style={{width:'100px'}}>
+                            <img style={{width:'100%' }} src={singleData.rideImage} alt="" />
+                        </div>
+                        <p>{singleData.rentAmount}</p>
+                    </div>
                 </div>
                 }
             </div>

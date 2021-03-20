@@ -1,14 +1,21 @@
-body,html{
-  height: 100%;
-  background-image: url("./images/Bg.png");
-  height: 100%;
-  background-position: 100% 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  /* border: 1px solid red; */
-}
-.main-back{
-  /* border: 2px solid yellow; */
-  
 
+.main-back{
+ /* position:fixed;  */
+ height: 100vh;
+ background-image: url("./images/Bg.png");
+ background-position: 100% 100%;
+ background-repeat: no-repeat;
+ background-size: cover;
+ /* border: 2px solid red; */
+}
+@media (max-width: 1079px){
+  .main-back{
+    /* position:fixed;  */
+    height: 100%;
+    background-image: url("./images/Bg.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* border: 2px solid red; */
+   }
 }

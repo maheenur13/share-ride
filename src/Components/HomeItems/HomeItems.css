@@ -1,13 +1,12 @@
 
 .ride-boxes{
     margin: 175px 35px 35px 35px;
-    /* display: flex; */
     width: 200px;
     padding: 30px;
     text-align: center;
     background-color:rgba(0, 0, 0, 0.466);
     border-radius:10px;
-    transition: .3s;
+    transition: .2s;
 }
 .images-style{
     width: 100%;
@@ -17,13 +16,7 @@
     background-color:rgba(0, 0, 0, 0.836);
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.425);   
 }
-.icons{
-    font-size:120px;
-    color: #123E59;
-    background-color:#F6B51B;
-    border-radius: 20%;
-    padding:10px;
-}
+
 .ride-boxes h1{
     color: white;
     margin-top: 20px;

@@ -4,24 +4,17 @@ import { useHistory } from 'react-router';
 import './Home.css';
 import fakeData from '../FakeData/FakeData.json';
 import HomeItems from '../HomeItems/HomeItems';
-const Home = (props) => {
+const Home = () => {
     const [allData, setAllData] = useState([])
     useEffect(() => {
         setAllData(fakeData);
-
     }, [])
     const history = useHistory();
-    // const { id, rideName, rideImage } = props.data;
-    // console.log(rideImage);
-    // const handleOnClick = elementId => {
-    //     const url = `destination/${rideName}/${elementId}`;
-    //     history.push(url);
-    // }
     return (
 
-        <div style={{display: 'flex',justifyContent: 'center',alignItems: 'center'}}>
+        <div style={{display: 'flex',justifyContent: 'center',alignItems: 'center',flexWrap:'wrap'}}>
             {
-                allData.map((data) =><HomeItems data={data} ></HomeItems>)
+                allData.map((data) =><HomeItems data={data} key={data.id} ></HomeItems>)
             }         
         </div>
     );
