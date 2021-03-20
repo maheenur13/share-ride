@@ -1,6 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBus, faMotorcycle, faTrain, faCar } from '@fortawesome/free-solid-svg-icons';
 import './Home.css';
 const Home = (props) => {
     // console.log(props.data)

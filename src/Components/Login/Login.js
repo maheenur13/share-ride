@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import firebase from "firebase/app";
 import firebaseConfig from './firebase.config';
 // Add the Firebase services that you want to use
 import "firebase/auth";
 import "firebase/firestore";
 import './Login.css';
-
+import {userContext} from '../../App';
 
 console.log(firebaseConfig);
 if (!firebase.apps.length) {
@@ -21,6 +21,8 @@ if (!firebase.apps.length) {
 
 
 const Login = () => {
+    const [loggedInUser,setLoggedInUser]=useContext(userContext);
+    console.log('seetttt',setLoggedInUser);
     const [oldUser, setOldUser] = useState(false);
     const [user, setUser] = useState({
         isSignedIn: false,
@@ -32,6 +34,8 @@ const Login = () => {
         success: false
     });
     const history = useHistory();
+    const location=useLocation();
+    let { from } = location.state || { from: { pathname: "/" } };
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     const handleGoogleSignIn = () => {
         console.log('google clicked');
@@ -47,7 +51,9 @@ const Login = () => {
                 const newUserInfo = { ...user };
                 newUserInfo.name=user.displayName;
                 setUser(newUserInfo);
-                history.push('/home');
+                setLoggedInUser(newUserInfo);
+                history.replace(from);
+                // history.push('/home');
                 console.log(user);
                 // ...
             }).catch((error) => {
@@ -77,7 +83,9 @@ const Login = () => {
                 const newUserInfo = { ...user };
                 newUserInfo.name=fbUser.displayName;
                 setUser(newUserInfo);
-                history.push('/home');
+                setLoggedInUser(newUserInfo);
+                history.replace(from);
+                // history.push('/home');
                 console.log('faceeeeeeeeeeeeboook user',fbUser);
                 // This gives you a Facebook Access Token. You can use it to access the Facebook API.
                 var accessToken = credential.accessToken;
@@ -157,6 +165,8 @@ const Login = () => {
                     newUserInfo.error = '';
                     newUserInfo.success = true;
                     setUser(newUserInfo);
+                    setLoggedInUser(newUserInfo);
+                    history.replace(from);
                     history.push('/home');
                     console.log('Sing in user',res.user)
                 })
@@ -187,7 +197,6 @@ const Login = () => {
 
     return (
         <div className="login-page-design">
-            <p>user name: {user.name}</p>
             <form className="form-design" onSubmit={handleSubmit(onSubmit)}>
                 <h2 >{!oldUser ? 'Create An Account' : 'Please Login Your Account'}</h2>
                 {!oldUser && <input onBlur={handleFormValid} className="form-item" name="name" placeholder="Enter Your Name" ref={register({ required: true, maxLength: 20 })} />}

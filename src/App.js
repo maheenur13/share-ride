@@ -1,6 +1,5 @@
-import logo from './logo.svg';
+
 import './App.css';
-import { Button } from 'react-bootstrap';
 import Header from './Components/Header/Header';
 import {
   BrowserRouter as Router,
@@ -15,9 +14,12 @@ import Blog from './Components/Blog/Blog';
 import Contact from './Components/Contact/Contact';
 import Login from './Components/Login/Login';
 import fakeData from '../src/Components/FakeData/FakeData.json'
+import PrivateRout from './Components/PrivateRoute/PrivateRout';
+export const userContext=createContext();
 function App() {
-  const context=createContext();
-   
+  
+   const [loggedInUser,setLoggedInUser]=useState([]);
+   console.log(loggedInUser);
   const [allData,setAllData]= useState([])
   useEffect(()=>{
     setAllData(fakeData);
@@ -25,7 +27,7 @@ function App() {
   },[])
   return (
     <div className="main-back">
-    <context.Provider value={[fakeData,allData,setAllData]}>
+    <userContext.Provider value={[loggedInUser,setLoggedInUser]}>
       <Router>
         <Header></Header>
         <Switch>
@@ -43,9 +45,9 @@ function App() {
            }
            </div>
         </Route>
-        <Route path="/destination">
+        <PrivateRout path="/destination">
             <Destination></Destination>
-        </Route>
+        </PrivateRout>
         <Route path="/blog">
           <Blog></Blog>
         </Route>
@@ -58,7 +60,7 @@ function App() {
         </Switch>
        </Router>
       
-       </context.Provider>
+       </userContext.Provider>
       </div>
   );
 }
