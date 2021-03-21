@@ -7,22 +7,18 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useState } from 'react';
 import Home from './Components/Home/Home';
 import Destination from './Components/Destination/Destination';
 import Blog from './Components/Blog/Blog';
 import Contact from './Components/Contact/Contact';
 import Login from './Components/Login/Login';
-
 import PrivateRout from './Components/PrivateRoute/PrivateRout';
 
 export const userContext=createContext();
 
 function App() {
-  
-   const [loggedInUser,setLoggedInUser]=useState([]);
-  //  console.log(loggedInUser);
-  
+   const [loggedInUser,setLoggedInUser]=useState([]); 
   return (
     <div className="main-back">
     <userContext.Provider value={[loggedInUser,setLoggedInUser]}>

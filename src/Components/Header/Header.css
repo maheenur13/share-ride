@@ -1,8 +1,7 @@
 .Nav-items-design{
-    /* border: 1px solid white; */
     margin-left: auto;
     text-align: center;
-    /* width: 100%; */
+
 }
 .Nav-items-design .nav-item{
     padding:10px;
@@ -10,5 +9,4 @@
     text-decoration: none;
     text-align: center;
     color: white;
-    /* border: 1px solid red; */
 }

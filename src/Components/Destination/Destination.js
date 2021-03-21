@@ -8,7 +8,6 @@ import { faCoffee, faUsers } from '@fortawesome/free-solid-svg-icons'
 
 const Destination = () => {
     const [newData,setNewData]=useState([]);
-    const [newSingleData,setNewSingleData]=useState([]);
     const [destinationInfo,setDestinationInfo]= useState({
         isSearchedCliked:false,
     });
@@ -37,7 +36,6 @@ const Destination = () => {
             setDestinationInfo(newInfo);
         }
     }
-// console.log('valuess',props)
     const handleSubmit=(e) => {
         const newInfo = {...destinationInfo};
         newInfo.isSearchedCliked=true;

@@ -15,7 +15,6 @@ if (!firebase.apps.length) {
 } else {
     firebase.app(); // if already initialized, use that one
 }
-// const login = useContext(context);
 
 
 
@@ -26,7 +25,6 @@ const Login = () => {
         confirmPassword:''
     })
     const [loggedInUser,setLoggedInUser]=useContext(userContext);
-    // console.log('seetttt',setLoggedInUser);
     const [oldUser, setOldUser] = useState(false);
     const [user, setUser] = useState({
         isSignedIn: false,
@@ -42,7 +40,6 @@ const Login = () => {
     let { from } = location.state || { from: { pathname: "/" } };
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     const handleGoogleSignIn = () => {
-        // console.log('google clicked');
         firebase.auth()
             .signInWithPopup(googleProvider)
             .then((result) => {
@@ -57,19 +54,10 @@ const Login = () => {
                 setUser(newUserInfo);
                 setLoggedInUser(newUserInfo);
                 history.replace(from);
-                // history.push('/home');
-                // console.log(user);
-                // ...
             }).catch((error) => {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                // console.log(errorMessage);
-                // The email of the user's account used.
-                var email = error.email;
-                // The firebase.auth.AuthCredential type that was used.
-                var credential = error.credential;
-                // ...
             });
 
     }
@@ -89,24 +77,12 @@ const Login = () => {
                 setUser(newUserInfo);
                 setLoggedInUser(newUserInfo);
                 history.replace(from);
-                // history.push('/home');
-                // console.log('faceeeeeeeeeeeeboook user',fbUser);
-                // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-                var accessToken = credential.accessToken;
-
-                // ...
             })
             .catch((error) => {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                // console.log(errorMessage);
-                // The email of the user's account used.
-                var email = error.email;
-                // The firebase.auth.AuthCredential type that was used.
-                var credential = error.credential;
-
-                // ...
+                console.log(errorMessage);
             });
     }
 
@@ -115,7 +91,6 @@ const Login = () => {
         
         if (e.target.name === 'email') {
             isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
-            // console.log(isEmailValid);
         }
         if (e.target.name === 'password') {
             const isPassValid = e.target.value.length > 6;
@@ -131,10 +106,8 @@ const Login = () => {
             const newPassInfo ={ ...password };
             newPassInfo.confirmPassword = confirmPassword;
             setPassword(newPassInfo);
-            console.log('thepass',password);
         }
         if (isFieldValid) {
-            // console.log(isFormValid);
             const newUserInfo = { ...user };
             newUserInfo[e.target.name] = e.target.value;
             setUser(newUserInfo);
@@ -142,10 +115,9 @@ const Login = () => {
         
     }
     
-
+// form on submit handling
     const { register, handleSubmit, watch, errors } = useForm();
     const onSubmit = data => {
-        // console.log('dataaaa', data)
         if (!oldUser && user.email && user.password) {
             firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                 .then((userCredential) => {
@@ -178,7 +150,6 @@ const Login = () => {
                     setLoggedInUser(newUserInfo);
                     history.replace(from);
                     history.push('/home');
-                    // console.log('Sing in user',res.user)
                 })
                 .catch((error) => {
                     const newUserInfo = { ...user };
@@ -195,7 +166,6 @@ const Login = () => {
 
         updateUser.updateProfile({
             displayName: name,
-            // photoURL: "https://example.com/jane-q-user/profile.jpg"
         }).then(() => {
             // Update successful.
             console.log('uner Info updated Successfully!')

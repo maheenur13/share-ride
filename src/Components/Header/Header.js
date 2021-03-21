@@ -9,15 +9,13 @@ import {
   import './Header.css';
   import {userContext} from '../../App';
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee,faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import {faUserCircle } from '@fortawesome/free-solid-svg-icons'
 const Header = () => {
-  // const[loggedInUser,setLoggedInUser]=use({});
   const [loggedInUser,setLoggedInUser]=useContext(userContext);
   const title={
     fontSize:'34px',
     color:'white',
     fontFamily:'Helvetica Neue',
-
   }
     return (
         <>
@@ -34,12 +32,9 @@ const Header = () => {
         <Link style={{backgroundColor:'orange',color:'black',borderRadius:'2px',fontWeight:'bold'}} className="nav-item" to="/login" onClick={()=>setLoggedInUser({})}>Sign Out</Link>
         }
         {loggedInUser.email && <h6 style={{backgroundColor:'green',color:'white',borderRadius:'2px',fontWeight:'bold'}} className="nav-item"><FontAwesomeIcon style={{marginRight:'6px'}} icon={faUserCircle}/>{loggedInUser.name}</h6>}
-      
     </Nav>
   </Navbar.Collapse>
 </Navbar>
-  
-  
 </>
     );
 };

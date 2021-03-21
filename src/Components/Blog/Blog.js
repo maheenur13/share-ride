@@ -2,8 +2,8 @@ import React from 'react';
 
 const Blog = () => {
     return (
-        <div>
-            <h1>This is Blog</h1>
+        <div style={{marginTop:'200px'}}>
+            <h1 style={{textAlign:'center',color:'white'}}>Blog is Coming Soon...</h1>
         </div>
     );
 };
