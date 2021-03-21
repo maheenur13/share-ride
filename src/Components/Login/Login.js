@@ -212,7 +212,7 @@ const Login = () => {
                 {!oldUser && errors.confirmpassword && <span className="error-design">Confirm Password is required</span>}
                 {passMatched   && <p style={{color: 'green'}}>password matched!</p>}
                 {passDidNotMatched && <p style={{color: 'red'}}>Password did not matched!</p>}
-                {passMatched ? <input className="form-item submit" type="submit" value={!oldUser ? 'Sign Up' : 'Login'} />:<input className="form-item submit" type="submit" value={!oldUser ? 'Sign Up' : 'Login'} disabled/>}
+                 <input className="form-item submit" type="submit" value={!oldUser ? 'Sign Up' : 'Login'} />
                 <h6>{oldUser?`Don't have Account?`:'Already Have An Account?'} <span><Link to="#" name="oldUser" onClick={() => setOldUser(!oldUser)} >{oldUser?'Sign Up':'Login'} </Link></span> </h6>
                 {user.success ? <p style={{ color: 'green' }}> {!oldUser ?'Account Created Successfully':''}</p> :
                     <p style={{ color: 'red' }}>{user.error}</p>}
