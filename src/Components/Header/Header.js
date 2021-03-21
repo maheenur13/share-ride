@@ -13,15 +13,21 @@ import { faCoffee,faUserCircle } from '@fortawesome/free-solid-svg-icons'
 const Header = () => {
   // const[loggedInUser,setLoggedInUser]=use({});
   const [loggedInUser,setLoggedInUser]=useContext(userContext);
+  const title={
+    fontSize:'34px',
+    color:'white',
+    fontFamily:'Helvetica Neue',
+
+  }
     return (
         <>
   <Navbar bg="dark" expand="lg">
-  <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+  <Navbar.Brand style={title} href="#home">Share - Ride</Navbar.Brand>
   <Navbar.Toggle aria-controls="basic-navbar-nav" />
   <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="Nav-items-design">
         <Link className="nav-item" to="/home" >Home</Link>
-         <Link className="nav-item" to="/destination/:rideName/:elementId" >Destination</Link>
+         <Link className="nav-item" to="/destination/Bike/1" >Destination</Link>
          <Link className="nav-item" to="/blog" >Blog</Link>
         <Link className="nav-item" to="/contact" >Contact</Link>
         {!loggedInUser.email? <Link style={{backgroundColor:'orange',color:'black',borderRadius:'5px',fontWeight:'bold'}} className="nav-item" to="/login">Login</Link>:

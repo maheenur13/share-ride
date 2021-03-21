@@ -4,16 +4,17 @@
     width: 200px;
     padding: 30px;
     text-align: center;
-    background-color:rgba(0, 0, 0, 0.466);
-    border-radius:10px;
+    background-color:rgba(0, 0, 0, 0.836);
+    border-radius:5px;
     transition: .2s;
+    cursor: pointer;
 }
 .images-style{
     width: 100%;
 }
 .ride-boxes:hover{
     margin-top: 155px;
-    background-color:rgba(0, 0, 0, 0.836);
+    background-color:rgba(0, 0, 0, 0.685);
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.425);   
 }
 
