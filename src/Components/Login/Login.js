@@ -21,8 +21,12 @@ if (!firebase.apps.length) {
 
 
 const Login = () => {
+    const [password,setPassword]=useState({
+        firstPassword:'',
+        confirmPassword:''
+    })
     const [loggedInUser,setLoggedInUser]=useContext(userContext);
-    console.log('seetttt',setLoggedInUser);
+    // console.log('seetttt',setLoggedInUser);
     const [oldUser, setOldUser] = useState(false);
     const [user, setUser] = useState({
         isSignedIn: false,
@@ -38,7 +42,7 @@ const Login = () => {
     let { from } = location.state || { from: { pathname: "/" } };
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     const handleGoogleSignIn = () => {
-        console.log('google clicked');
+        // console.log('google clicked');
         firebase.auth()
             .signInWithPopup(googleProvider)
             .then((result) => {
@@ -54,13 +58,13 @@ const Login = () => {
                 setLoggedInUser(newUserInfo);
                 history.replace(from);
                 // history.push('/home');
-                console.log(user);
+                // console.log(user);
                 // ...
             }).catch((error) => {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                console.log(errorMessage);
+                // console.log(errorMessage);
                 // The email of the user's account used.
                 var email = error.email;
                 // The firebase.auth.AuthCredential type that was used.
@@ -86,7 +90,7 @@ const Login = () => {
                 setLoggedInUser(newUserInfo);
                 history.replace(from);
                 // history.push('/home');
-                console.log('faceeeeeeeeeeeeboook user',fbUser);
+                // console.log('faceeeeeeeeeeeeboook user',fbUser);
                 // This gives you a Facebook Access Token. You can use it to access the Facebook API.
                 var accessToken = credential.accessToken;
 
@@ -96,7 +100,7 @@ const Login = () => {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                console.log(errorMessage);
+                // console.log(errorMessage);
                 // The email of the user's account used.
                 var email = error.email;
                 // The firebase.auth.AuthCredential type that was used.
@@ -108,8 +112,7 @@ const Login = () => {
 
     const handleFormValid = (e) => {
         let isFieldValid = true;
-        let firstPassword;
-        let lastPassword;
+        
         if (e.target.name === 'email') {
             isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
             // console.log(isEmailValid);
@@ -118,20 +121,27 @@ const Login = () => {
             const isPassValid = e.target.value.length > 6;
             const isPassHasNum = /\d{1}/.test(e.target.value);
             isFieldValid = isPassValid && isPassHasNum;
-            firstPassword = e.target.value;
-            console.log('first password', firstPassword);
-            // console.log(isPassValid && isPassHasNum);  
+            const firstPassword = e.target.value;
+            const newPassInfo ={ ...password };
+            newPassInfo.firstPassword = firstPassword;
+            setPassword(newPassInfo);
         }
-
+        if(e.target.name==='confirmPassword'){
+            const confirmPassword = e.target.value;
+            const newPassInfo ={ ...password };
+            newPassInfo.confirmPassword = confirmPassword;
+            setPassword(newPassInfo);
+            console.log('thepass',password);
+        }
         if (isFieldValid) {
             // console.log(isFormValid);
             const newUserInfo = { ...user };
             newUserInfo[e.target.name] = e.target.value;
             setUser(newUserInfo);
         }
+        
     }
-
-
+    
 
     const { register, handleSubmit, watch, errors } = useForm();
     const onSubmit = data => {
@@ -168,7 +178,7 @@ const Login = () => {
                     setLoggedInUser(newUserInfo);
                     history.replace(from);
                     history.push('/home');
-                    console.log('Sing in user',res.user)
+                    // console.log('Sing in user',res.user)
                 })
                 .catch((error) => {
                     const newUserInfo = { ...user };
@@ -177,6 +187,8 @@ const Login = () => {
                     setUser(newUserInfo);
                 });
         }
+        
+       
     };
     const updateUserInfo = name => {
         const updateUser = firebase.auth().currentUser;
@@ -210,7 +222,8 @@ const Login = () => {
         // An error happened.
       });
     }
-
+    const passMatched=password.firstPassword===password.confirmPassword && password.firstPassword.length>0;
+    const passDidNotMatched=password.confirmPassword.length>0 && password.firstPassword!==password.confirmPassword;
     console.log(watch("example")); // watch input value by passing the name of it
 
     return (
@@ -225,11 +238,12 @@ const Login = () => {
                 <input onBlur={handleFormValid} name="password" placeholder="password" className="form-item" type="password" ref={register({ required: true })} />
                 {errors.password && <span className="error-design">Password is required</span>}
 
-                {!oldUser && <input onBlur={handleFormValid} name="confirmpassword" className="form-item" placeholder="Confirm password" type="password" ref={register({ required: true })} />}
+                {!oldUser && <input onBlur={handleFormValid} name="confirmPassword" className="form-item" placeholder="Confirm password" type="password" ref={register({ required: true })} />}
                 {!oldUser && errors.confirmpassword && <span className="error-design">Confirm Password is required</span>}
-
-                <input className="form-item submit" type="submit" value={!oldUser ? 'Sign Up' : 'Login'} />
-                <h6>{oldUser?`Don't have Account?`:'Already Have An Account?'} <span><Link to="#" name="oldUser" onClick={() => setOldUser(!oldUser)} >{oldUser?'Sign Up':'Login'}</Link></span> </h6>
+                {passMatched   && <p style={{color: 'green'}}>password matched!</p>}
+                {passDidNotMatched && <p style={{color: 'red'}}>Password did not matched!</p>}
+                {passMatched ? <input className="form-item submit" type="submit" value={!oldUser ? 'Sign Up' : 'Login'} />:<input className="form-item submit" type="submit" value={!oldUser ? 'Sign Up' : 'Login'} disabled/>}
+                <h6>{oldUser?`Don't have Account?`:'Already Have An Account?'} <span><Link to="#" name="oldUser" onClick={() => setOldUser(!oldUser)} >{oldUser?'Sign Up':'Login'} </Link></span> </h6>
                 {user.success ? <p style={{ color: 'green' }}> {!oldUser ?'Account Created Successfully':''}</p> :
                     <p style={{ color: 'red' }}>{user.error}</p>}
             </form>

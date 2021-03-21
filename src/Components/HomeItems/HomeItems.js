@@ -5,10 +5,10 @@ import './HomeItems.css'
 
 const HomeItems = (props) => {
     const { id, rideName, rideImage } = props.data;
-    console.log(props);
+    // console.log(props);
     const history = useHistory();
     const handleOnClick = elementId => {
-        console.log(elementId);
+        // console.log(elementId);
             const url = `destination/${rideName}/${elementId}`;
             history.push(url);
         }

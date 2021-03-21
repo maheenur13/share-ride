@@ -21,7 +21,7 @@ export const userContext=createContext();
 function App() {
   
    const [loggedInUser,setLoggedInUser]=useState([]);
-   console.log(loggedInUser);
+  //  console.log(loggedInUser);
   
   return (
     <div className="main-back">
